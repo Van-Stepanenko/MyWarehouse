@@ -6,15 +6,47 @@ info:
 host: api.sklad.stepanenko.dev
 tags:
   - name: "Товары"
+  - name: "Склады"
+  - name: "Поступление"
+  - name: "Продажа"
+  - name: "Перемещение"
 schemes:
   - http
 paths:
   /goods:
+    get:
+      summary: Возвращает товар
+      produces:
+        - application/json
+      parameters:
+        - name: name
+          in: query
+          required: false
+          type: string
+        - name: pageNumber
+          in: query
+          required: false
+          type: integer
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+
+      responses:
+        '200':
+          description: Количество товаров на складах
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GoodWarehouses'
+        '404':
+          description: Товар не найден
+
+  /warehouses:
     post:
       tags:
-        - "Товары"
-      summary: Добавление товара
-      description: Добавляет товар на склад
+        - "Склады"
+      summary: Добавляет новый склад
       produces:
         - application/json
       consumes:
@@ -22,20 +54,199 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "Pet object that needs to be added to the store"
           required: true
           schema:
-            $ref: "#/definitions/Good"
+            $ref: "#/definitions/Warehouse"
       responses:
         200:
           description: OK
         400:
           description: Некорректный запрос
+    get:
+      summary: Возвращает склад и его товары
+      produces:
+        - application/json
+      parameters:
+        - name: name
+          in: query
+          required: false
+          type: string
+        - name: pageNumber
+          in: query
+          required: false
+          type: integer
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+
+      responses:
+        '200':
+          description: Склады и Количество товаров на складах
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Warehouse'
+        '404':
+          description: Склад не найден
+    delete:
+      summary: Удаляет склад
+      produces:
+        - application/json
+      parameters:
+        - name: name
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Склад удален
+          schema:
+            type: "object"
+            $ref: '#/definitions/Warehouse'
+        '400':
+          description: Склад не пустой
+        '404':
+          description: Склад не найден
+    put:
+      tags:
+        - "Склады"
+      summary: Изменяет имя склада
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: oldName
+          in: query
+          required: true
+          type: "string"
+        - name: newName
+          in: query
+          required: true
+          type: "string"
+      responses:
+        '200':
+          description: Переменование успешно
+        '400':
+          description: Некорректный новое имя
+        '404':
+          description: Имя не найдено
+
+
+  /invoice:
+    post:
+      tags:
+        - "Поступление"
+      summary: Создание накладных разных типов
+      description: Принемает тип и шаблон накладной
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Invoice"
+        - name: type
+          in: query
+          required: true
+          type: string
+          enum:
+            - incoming
+            - outcoming
+            - movement
+      responses:
+        '200':
+          description: id накладной
+          schema:
+            type: integer
+        '400':
+          description: Некорректный запрос
+
+    get:
+      summary: Возвращает входящие накладные
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: query
+          required: false
+          type: integer
+        - name: pageNumber
+          in: query
+          required: false
+          type: integer
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+
+      responses:
+        '200':
+          description: Возвращает накладные
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Invoice'
+        '404':
+          description: Накладная не найдена
+        '400':
+          description: Некорректный id
+
+    delete:
+      summary: Удаляет накладные
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: query
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Накладная удалена
+          schema:
+            type: "object"
+            $ref: '#/definitions/Invoice'
+        '400':
+          description: Некорректный id
+        '404':
+          description: Накладная не найдена
+
+    put:
+      tags:
+        - "Накладные"
+      summary: Изменяет имя накладной
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: query
+          required: true
+          type: integer
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: "#/definitions/Invoice"
+      responses:
+        '200':
+          description: Обновление накладной успешно
+        '400':
+          description: Некорректные данные
+        '404':
+          description: Накладная не найдена
+
 definitions:
   Good:
     type: "object"
     properties:
-      article:
+      sku:
         type: "string"
       name:
         type: "string"
@@ -46,6 +257,87 @@ definitions:
         type: integer
         minimum: 0
     required:
-      - article
+      - sku
       - name
       - lastBuyPrice
+
+  Warehouse:
+    type: "object"
+    properties:
+      warehouseName:
+        type: "string"
+      goods:
+        type: array
+        items:
+          $ref: "#/definitions/GoodAmount"
+    required:
+      - warehouseName
+
+  AmountWarehouse:
+    type: "object"
+    properties:
+      warehouseName:
+        type: "string"
+      amount:
+        type: integer
+
+  GoodWarehouses:
+    type: "object"
+    properties:
+      good:
+        $ref: "#/definitions/Good"
+      amount:
+        $ref: "#/definitions/AmountWarehouse"
+
+
+  Invoice:
+    type: "object"
+    properties:
+      sourse:
+        description: Если поле destination пустое - значит поле sourse обязательно
+        type: "string"
+      destination:
+        description: Если поле sourse пустое - значит поле destination обязательно
+        type: "string"
+      goods:
+        type: array
+        items:
+          $ref: "#/definitions/GoodAmount"
+      id:
+        type: integer
+      totalPrice:
+        type: integer
+        minimum: 0
+    required:
+      - goods
+      - id
+
+
+  GoodAmount:
+    type: "object"
+    properties:
+      good:
+        $ref: "#/definitions/Good"
+      amount:
+        type: integer
+        minimum: 1
+    required:
+      - good
+      - amount
+
+
+  Movement:
+    type: "object"
+    properties:
+      goods:
+        type: array
+        items:
+          $ref: "#/definitions/GoodAmount"
+      warehouseSourse:
+        type: "string"
+      warehouseDestination:
+        type: "string"
+    required:
+      - warehouseSourse
+      - warehouseDestination
+      - goods
