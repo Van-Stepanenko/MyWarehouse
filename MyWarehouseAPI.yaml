@@ -102,7 +102,6 @@ paths:
         '200':
           description: Склад удален
           schema:
-            type: "object"
             $ref: '#/definitions/Warehouse'
         '400':
           description: Склад не пустой
@@ -209,7 +208,6 @@ paths:
         '200':
           description: Накладная удалена
           schema:
-            type: "object"
             $ref: '#/definitions/Invoice'
         '400':
           description: Некорректный id
@@ -325,19 +323,3 @@ definitions:
       - good
       - amount
 
-
-  Movement:
-    type: "object"
-    properties:
-      goods:
-        type: array
-        items:
-          $ref: "#/definitions/GoodAmount"
-      warehouseSourse:
-        type: "string"
-      warehouseDestination:
-        type: "string"
-    required:
-      - warehouseSourse
-      - warehouseDestination
-      - goods
