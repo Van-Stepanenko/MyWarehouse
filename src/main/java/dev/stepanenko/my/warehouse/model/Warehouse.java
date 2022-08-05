@@ -26,6 +26,7 @@ public class Warehouse   {
   @Valid
   private List<GoodAmount> goods = null;
 
+
   public Warehouse warehouseName(String warehouseName) {
     this.warehouseName = warehouseName;
     return this;

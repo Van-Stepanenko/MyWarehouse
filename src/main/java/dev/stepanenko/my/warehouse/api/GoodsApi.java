@@ -30,6 +30,7 @@ public interface GoodsApi {
     @RequestMapping(value = "/goods",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<List<GoodWarehouses>> goodsGet(@ApiParam(value = "") @Valid @RequestParam(value = "name", required = false) String name, @ApiParam(value = "") @Valid @RequestParam(value = "pageNumber", required = false) Integer pageNumber, @ApiParam(value = "") @Valid @RequestParam(value = "pageSize", required = false) Integer pageSize);
+    ResponseEntity<List<GoodWarehouses>> goodsGet(@ApiParam(value = "") @Valid @RequestParam(value = "name", required = false) String name, @ApiParam(value = "")
+    @Valid @RequestParam(value = "pageNumber", required = false) Integer pageNumber, @ApiParam(value = "") @Valid @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
 }

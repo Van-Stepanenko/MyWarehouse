@@ -38,6 +38,7 @@ public class WarehousesApiController implements WarehousesApi {
     }
 
     public ResponseEntity<Warehouse> warehousesDelete(@ApiParam(value = "") @Valid @RequestParam(value = "name", required = false) String name) {
+
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {

@@ -53,7 +53,19 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+        <!--        Добавил 2-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId> <!-- библиотека позволяет связать java spring project с базами MySQL  -->
+        </dependency>
 
+
+        <dependency>
+            <groupId>org.postgresql</groupId> <!-- для баз данных чисто для соединения-->
+            <artifactId>postgresql</artifactId>
+            <version>42.3.3</version>
+        </dependency>
+        <!--        До этого момента-->
         <!--        <dependency>-->
         <!--            <groupId>org.springframework.boot</groupId>-->
         <!--            <artifactId>spring-boot-devtools</artifactId>-->
