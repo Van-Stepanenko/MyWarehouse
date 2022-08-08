@@ -4,11 +4,11 @@ import dev.stepanenko.my.warehouse.model.Good;
 
 public interface GoodService {
     Good saveGood(Good good);
-    void renameGoods (String oldNameGoods, String newNameGoods);
-    void deleteGoods (String nameGoods);
-    Good getGoods (String nameGoods);
-    void changeAmount (String nameGoods, int newAmount);
-    void buyGoods(String nameGoods, int amount, int lastByPrice, String warehouse);
-    void sellGoods(String nameGoods, int amount, int lastSellPrice);
-    void changeWarehouse(String nameGoods,int amount, String oldWarehouse,String newWarehouse);
+    void renameGoods (String sku, String newNameGoods);
+    void deleteGoods (String sku);
+    Good getGoods (String sku);
+    void changeAmount (String sku, int newAmount);
+    void buyGoods(String sku, int amount, int lastByPrice, String warehouse);
+    void sellGoods(String sku, int amount, int lastSellPrice);
+    void changeWarehouse(String sku,int amount, String oldWarehouse,String newWarehouse);
 }

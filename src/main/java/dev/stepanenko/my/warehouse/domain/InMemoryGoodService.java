@@ -9,11 +9,11 @@ import java.util.HashMap;
 public class InMemoryGoodService implements GoodService {
 
 
-    public class NameMatchException extends ApiException {
+    public class BusinessLayerException extends RuntimeException {
         private int code;
 
-        public NameMatchException(int code, String msg) {
-            super(code, msg);
+        public BusinessLayerException(int code, String msg) {
+            super(msg);
             this.code = code;
         }
     }
@@ -22,80 +22,92 @@ public class InMemoryGoodService implements GoodService {
 
     @Override
     public Good saveGood(Good good) {
-
-        if (goods.containsKey(good.getName())) {
-            throw new NameMatchException(505, "Good name matches existing");
-        } else {
-            goods.put(good.getName(), good);
+        if(good.getName() == null){
+            throw new NotFoundException(404, "Name can't be null");
+        }
+        else if(good.getSku() == null){
+            throw new NotFoundException(404, "SKU can't be null");
+        }
+      /* else if (goods.containsKey(good.getName())) {
+            throw new BusinessLayerException(505, "Good name matches existing");
+        } */
+        else {
+            goods.put(good.getSku(), good);
         }
         return good;
     }
 
     @Override
-    public void renameGoods(String oldNameGoods, String newNameGoods) {
-        Good good = goods.get(oldNameGoods);
-        if (good.getName() == null) {
-            throw new NullPointerException("Warehouse name not  can be null");
-        } else if (good == null) { // Если старый warehouse не был найден
-            throw new NotFoundException(404, "Warehouse name not  can be null");
-        } else if (goods.containsKey(newNameGoods)) {
-            throw new NameMatchException(505, "Warehouse name matches existing");
-        } else {
+    public void renameGoods(String sku, String newNameGoods) {
+        Good good = goods.get(sku);
+        if (good == null) {
+            throw new NotFoundException(404, "Old name not found.");
+        }
+        else if (newNameGoods == null) {
+            throw new NullPointerException("Old name can't be null.");
+        }
+        else {
             good.setName(newNameGoods);
-            goods.put(newNameGoods, good);
+            goods.put(sku, good);
         }
     }
 
     @Override
-    public void deleteGoods(String nameGoods) {
-        Good good = goods.get(nameGoods);
+    public void deleteGoods(String sku) {
+        Good good = goods.get(sku);
         if (good == null) {
-            throw new NotFoundException(404, "Warehouse name not  can be null");
+            throw new NotFoundException(404, "Good not found");
         } else
-            goods.remove(nameGoods);
+            goods.remove(sku);
     }
 
 
     @Override
-    public Good getGoods(String nameGoods) {
-        return goods.get(nameGoods);
+    public Good getGoods(String sku) {
+        if (sku == null) { // Если старый warehouse не был найден
+            throw new NotFoundException(404, "SKU not  can be null");
+        }
+        else if (goods.get(sku)==null) {
+            throw new NotFoundException(404, "Good not found");
+        }
+        else {
+        return goods.get(sku);}
+
     }
 
     @Override
-    public void changeAmount(String nameGoods, int newAmount) {
-        Good good = goods.get(nameGoods);
-        if (good.getName() == null) {
-            throw new NullPointerException("Good name not  can be null");
-        } else if (good == null) { // Если старый warehouse не был найден
+    public void changeAmount(String sku, int newAmount) {
+        Good good = goods.get(sku);
+        if (good == null) { // Если старый warehouse не был найден
             throw new NotFoundException(404, "Good name not  can be null");
         } else if (newAmount == 0) {
             throw new NullPointerException("Amount name not  can be null");
         } else {
             good.setAmount(newAmount);
-            goods.put(nameGoods, good);
+            goods.put(sku, good);
         }
 
 
     }
 
     @Override
-    public void buyGoods(String nameGoods, int amount, int lastBylPrice, String warehouse) {
-        Good good = goods.get(nameGoods);
+    public void buyGoods(String sku, int amount, int lastBylPrice, String warehouse) {
+        Good good = goods.get(sku);
         if (good.getName() == null) {
             throw new NullPointerException("Good name not  can be null");
         } else if (good == null) { // Если старый warehouse не был найден
             throw new NotFoundException(404, "Good name not  can be null");
         } else {
             good.setAmount(good.getAmount() + amount);
-            goods.put(nameGoods, good);
+            goods.put(sku, good);
         }
 
 
     }
 
     @Override
-    public void sellGoods(String nameGoods, int amount, int lastSellPrice) {
-        Good good = goods.get(nameGoods);
+    public void sellGoods(String sku, int amount, int lastSellPrice) {
+        Good good = goods.get(sku);
         if (good.getName() == null) {
             throw new NullPointerException("Good name not  can be null");
         } else if (good == null) { // Если старый warehouse не был найден
@@ -105,7 +117,7 @@ public class InMemoryGoodService implements GoodService {
 
         } else {
             good.setAmount(good.getAmount() - amount);
-            goods.put(nameGoods, good);
+            goods.put(sku, good);
         }
     }
 
