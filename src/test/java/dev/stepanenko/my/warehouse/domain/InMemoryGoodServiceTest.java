@@ -14,11 +14,15 @@ public class InMemoryGoodServiceTest {
 
         String expectedGoods = "newGood";
         InMemoryGoodService service = new InMemoryGoodService();
-        service.createGoods(expectedGoods, 100, 12, "warehouse1");
+        Good good = new Good();
+        good.setName(expectedGoods);
+        service.createGoods(good);
 
         Good actualGoods = service.getGoods(expectedGoods);
+        assertNotNull(actualGoods);
         String actualGoodsName = actualGoods.getName();
         assertEquals(expectedGoods, actualGoodsName);
+
     }
 
 
