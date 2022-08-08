@@ -21,17 +21,14 @@ public class InMemoryGoodService implements GoodService {
     private HashMap<String, Good> goods = new HashMap<>();
 
     @Override
-    public void createGoods(String nameGoods, int amount, int lastBuyPrice, String warehouse) {
-        Good newGood = new Good();
-        newGood.setName(nameGoods);
-        if (newGood.getName() == null) {
-            throw new NullPointerException("Good name not  can be null");
-        } else if (goods.containsKey(nameGoods)) {
+    public Good saveGood(Good good) {
+
+        if (goods.containsKey(good.getName())) {
             throw new NameMatchException(505, "Good name matches existing");
-        } else
-
-            goods.put(nameGoods, newGood);
-
+        } else {
+            goods.put(good.getName(), good);
+        }
+        return good;
     }
 
     @Override
@@ -82,7 +79,7 @@ public class InMemoryGoodService implements GoodService {
     }
 
     @Override
-    public void byGoods(String nameGoods, int amount, int lastBylPrice, String warehouse) {
+    public void buyGoods(String nameGoods, int amount, int lastBylPrice, String warehouse) {
         Good good = goods.get(nameGoods);
         if (good.getName() == null) {
             throw new NullPointerException("Good name not  can be null");
@@ -121,7 +118,7 @@ public class InMemoryGoodService implements GoodService {
             throw new NotFoundException(404, "Good name not  can be null");
         } else {
             good.setWarehouse(newWarehouse);
-            goods.put(nameGoods,good);
+            goods.put(nameGoods, good);
         }
 
     }
