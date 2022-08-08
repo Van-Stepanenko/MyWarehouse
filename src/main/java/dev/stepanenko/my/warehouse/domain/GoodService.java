@@ -3,7 +3,7 @@ package dev.stepanenko.my.warehouse.domain;
 import dev.stepanenko.my.warehouse.model.Good;
 
 public interface GoodService {
-    void createGoods (Good good);
+    Good saveGood(Good good);
     void renameGoods (String oldNameGoods, String newNameGoods);
     void deleteGoods (String nameGoods);
     Good getGoods (String nameGoods);

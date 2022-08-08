@@ -21,14 +21,14 @@ public class InMemoryGoodService implements GoodService {
     private HashMap<String, Good> goods = new HashMap<>();
 
     @Override
-    public void createGoods(Good good) {
+    public Good saveGood(Good good) {
 
         if (goods.containsKey(good.getName())) {
             throw new NameMatchException(505, "Good name matches existing");
         } else {
             goods.put(good.getName(), good);
         }
-
+        return good;
     }
 
     @Override
