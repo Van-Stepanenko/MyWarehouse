@@ -7,8 +7,8 @@ public interface GoodService {
     void renameGoods (String sku, String newNameGoods);
     void deleteGoods (String sku);
     Good getGoods (String sku);
-    void changeAmount (String sku, int newAmount);
-    void buyGoods(String sku, int amount, int lastByPrice, String warehouse);
-    void sellGoods(String sku, int amount, int lastSellPrice);
-    void changeWarehouse(String sku,int amount, String oldWarehouse,String newWarehouse);
+    Good createGood(String sku, String nameGoods);
+    void setLastBuyPrise(String sku, int lastBuyPrice);
+    void setLastSellPrice(String sku, int lastSellPrice);
+
 }

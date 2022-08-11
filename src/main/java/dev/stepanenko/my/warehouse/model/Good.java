@@ -22,17 +22,11 @@ public class Good {
     @JsonProperty("name")
     private String name = null;
 
-    @JsonProperty("warehouse")
-    private String warehouse = null;
-
     @JsonProperty("lastBuyPrice")
     private Integer lastBuyPrice = null;
 
     @JsonProperty("lastSellPrice")
     private Integer lastSellPrice = null;
-
-    @JsonProperty("amount")
-    private Integer amount = null;
 
     public Good sku(String sku) {
         this.sku = sku;
@@ -79,28 +73,6 @@ public class Good {
     }
 
 
-    public Good warehouse(String warehouse) {
-        this.warehouse = warehouse;
-        return this;
-    }
-
-    /**
-     * Get warehouse
-     *
-     * @return warehouse
-     **/
-    @ApiModelProperty(required = true, value = "")
-    @NotNull
-
-
-    public String getWarehouse() {
-        return warehouse;
-    }
-
-    public void setWarehouse(String warehouse) {
-        this.warehouse = warehouse;
-    }
-
     public Good lastBuyPrice(Integer lastBuyPrice) {
         this.lastBuyPrice = lastBuyPrice;
         return this;
@@ -129,25 +101,7 @@ public class Good {
         return this;
     }
 
-    /**
-     * Get lastSellPrice
-     * minimum: 0
-     *
-     * @return lastSellPrice
-     **/
-    @ApiModelProperty(value = "")
-
-    @Min(0)
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
     public Good amount(Integer amount) {
-        this.amount = amount;
         return this;
     }
 
@@ -180,15 +134,13 @@ public class Good {
         Good good = (Good) o;
         return Objects.equals(this.sku, good.sku) &&
                 Objects.equals(this.name, good.name) &&
-                Objects.equals(this.warehouse, good.warehouse) &&
                 Objects.equals(this.lastBuyPrice, good.lastBuyPrice) &&
-                Objects.equals(this.lastSellPrice, good.lastSellPrice) &&
-                Objects.equals(this.amount, good.amount);
+                Objects.equals(this.lastSellPrice, good.lastSellPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sku, name, warehouse, lastBuyPrice, lastSellPrice, amount);
+        return Objects.hash(sku, name, lastBuyPrice, lastSellPrice);
     }
 
     @Override
@@ -198,10 +150,8 @@ public class Good {
 
         sb.append("    sku: ").append(toIndentedString(sku)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    warehouse: ").append(toIndentedString(warehouse)).append("\n");
         sb.append("    lastBuyPrice: ").append(toIndentedString(lastBuyPrice)).append("\n");
         sb.append("    lastSellPrice: ").append(toIndentedString(lastSellPrice)).append("\n");
-        sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
         sb.append("}");
         return sb.toString();
     }

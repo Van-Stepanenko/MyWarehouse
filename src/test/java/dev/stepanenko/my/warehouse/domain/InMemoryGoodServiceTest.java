@@ -119,7 +119,7 @@ public class InMemoryGoodServiceTest {
         });
     }
 
-    @Test
+   /* @Test
     public void changeAmount(){
         String sku = "Квас";
         String skuNotFound = "НЕКвас";
@@ -140,22 +140,100 @@ public class InMemoryGoodServiceTest {
         });
 
     }
-/*
+
     @Test
     public void shouldChangeGoodIfBuyGood(){
 
         Good oldGood = new Good();
+        Good newGood = new Good();
+        String warehouse = "warehouse1232";
         String sku = "Букварь1232";
         int amount = 12;
         String nameGood = "Букварь за 1 класс";
         InMemoryGoodService service = new InMemoryGoodService();
+
+
         oldGood.setAmount(amount);
         oldGood.setName(nameGood);
         oldGood.setSku(sku);
+        oldGood.setWarehouse(warehouse);
         service.saveGood(oldGood);
-        Good newGood = oldGood;
 
-        assertNotEquals(oldGood,newGood);
+        newGood.setAmount(amount);
+        newGood.setName(nameGood);
+        newGood.setSku(sku);
+        newGood.setWarehouse(warehouse);
+        service.saveGood(newGood);
+        service.buyGoods(sku, 15,100,warehouse);
+
+
+        assertNotEquals(oldGood.getAmount(),newGood.getAmount());
+        assertEquals(oldGood.getWarehouse(),newGood.getWarehouse());
+    }
+    @Test
+    public void shouldGetExceptionIfGoodNotFoundWhenBuyGood(){
+
+
+        String warehouse = "warehouse1232";
+        String sku = "Букварь1232";
+        InMemoryGoodService service = new InMemoryGoodService();
+
+        assertThrows(NotFoundException.class, ()->{
+            service.buyGoods(sku, 15,100,warehouse);
+        });
+    }
+    @Test
+    public void whenSellingGoodShouldBecomeless(){
+        Good oldGood = new Good();
+        Good newGood = new Good();
+        String warehouse = "warehouse1232";
+        String sku = "Букварь1232";
+        int amount = 16;
+        String nameGood = "Букварь за 1 класс";
+        InMemoryGoodService service = new InMemoryGoodService();
+
+
+        oldGood.setAmount(amount);
+        oldGood.setName(nameGood);
+        oldGood.setSku(sku);
+        oldGood.setWarehouse(warehouse);
+        service.saveGood(oldGood);
+
+        newGood.setAmount(amount);
+        newGood.setName(nameGood);
+        newGood.setSku(sku);
+        newGood.setWarehouse(warehouse);
+        service.saveGood(newGood);
+        service.sellGoods(sku, 15,100,warehouse);
+        assert(oldGood.getAmount()>newGood.getAmount());
+    }
+    @Test
+    public void whenSellingGoodMoreThanItWasGetException(){
+        Good oldGood = new Good();
+        Good newGood = new Good();
+        String warehouse = "warehouse1232";
+        String sku = "Букварь1232";
+        int amount = 1;
+        String nameGood = "Букварь за 1 класс";
+        InMemoryGoodService service = new InMemoryGoodService();
+
+
+        oldGood.setAmount(amount);
+        oldGood.setName(nameGood);
+        oldGood.setSku(sku);
+        oldGood.setWarehouse(warehouse);
+        service.saveGood(oldGood);
+
+        newGood.setAmount(amount);
+        newGood.setName(nameGood);
+        newGood.setSku(sku);
+        newGood.setWarehouse(warehouse);
+        service.saveGood(newGood);
+
+        assertThrows(NullPointerException.class, ()->{
+            service.sellGoods(sku, 15,100,warehouse);
+        });
     }*/
+
 
 }
