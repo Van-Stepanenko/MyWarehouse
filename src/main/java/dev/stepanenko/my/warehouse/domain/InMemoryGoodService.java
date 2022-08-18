@@ -53,14 +53,15 @@ public class InMemoryGoodService implements GoodService {
 
     @Override
     public Good getGoods(String sku) {
-        if (sku == null) { // Если старый warehouse не был найден
-            throw new NotFoundException(404, "SKU not  can be null");
+        Good good = goods.get(sku);
+        if (sku == null) {
+            throw new NotFoundException(404, "SKU can't be null");
         }
-        else if (goods.get(sku)==null) {
+        else if (good==null) {
             throw new NotFoundException(404, "Good not found");
         }
         else {
-        return goods.get(sku);}
+        return good;}
 
     }
 
@@ -88,7 +89,6 @@ public class InMemoryGoodService implements GoodService {
         else {
             Good good = goods.get(sku);
             good.setLastBuyPrice(lastBuyPrice);
-
             goods.put(sku, good);
         }
     }

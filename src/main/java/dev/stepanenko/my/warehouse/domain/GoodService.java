@@ -11,4 +11,5 @@ public interface GoodService {
     void setLastBuyPrise(String sku, int lastBuyPrice);
     void setLastSellPrice(String sku, int lastSellPrice);
 
+
 }
