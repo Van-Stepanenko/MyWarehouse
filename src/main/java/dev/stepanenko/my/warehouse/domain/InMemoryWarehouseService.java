@@ -6,6 +6,7 @@ import dev.stepanenko.my.warehouse.model.Good;
 import dev.stepanenko.my.warehouse.model.GoodAmount;
 import dev.stepanenko.my.warehouse.model.Warehouse;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,10 @@ public class InMemoryWarehouseService implements WarehouseService {
     }
 
     @Override
-    public void buyGoods(String nameWarehouse, String sku, String nameGood, int amountGood, int lastBuyPrice) {
+    public void buyGoods(String nameWarehouse, String sku, String nameGood, int amountGood, int lastBuyPrice) throws IOException { // поступление на склад
+
+        String goodInfo = "sku: "+sku + "   Имя товара: " + nameGood + "   Количество товара: " + amountGood + "   цена закупки товара: " + lastBuyPrice;
+
         if (amountGood<1){
             throw new NullPointerException("amount not  can be <1");
         }
@@ -106,11 +110,16 @@ public class InMemoryWarehouseService implements WarehouseService {
 
             }
 
+            InMemoryInvoiceService service = new InMemoryInvoiceService();
+            service.addANoteToInvoice("Поступление "+nameWarehouse + " ",goodInfo);
         }
     }
 
     @Override
-    public void sellGoods(String nameWarehouse, String sku, String nameGood, int amountGood, int lastSellPrice) {
+    public void sellGoods(String nameWarehouse, String sku, String nameGood, int amountGood, int lastSellPrice) throws IOException { //списывание со склада
+
+        String goodInfo = "sku: "+sku + "   Имя товара: " + nameGood + "   Количество товара: " + amountGood + "   цена отправки товара: " + lastSellPrice;
+
         if (amountGood<1){
             throw new NullPointerException("amount not  can be <1");
         }
@@ -144,6 +153,9 @@ public class InMemoryWarehouseService implements WarehouseService {
                     warehouse.setGoods(goodsHashMap);
                 }
             }
+
+            InMemoryInvoiceService service = new InMemoryInvoiceService();
+            service.addANoteToInvoice("Списание "+nameWarehouse + " ",goodInfo);
 
         }
     }

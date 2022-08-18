@@ -8,6 +8,7 @@ import dev.stepanenko.my.warehouse.model.Warehouse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -184,7 +185,7 @@ class InMemoryWarehouseServiceTest {
     }
 
     @Test
-    void shouldSaveGoodInWarehouse() {
+    void shouldSaveGoodInWarehouse() throws IOException {
         String nameWarehouse = "Склад1";
         String nameWarehouse2 = "Склад2";
         String sku = "12147";
@@ -207,7 +208,7 @@ class InMemoryWarehouseServiceTest {
     }
 
     @Test
-    void shouldSaveGoodTwice() {
+    void shouldSaveGoodTwice() throws IOException {
         String nameWarehouse = "Склад1";
         String nameWarehouse2 = "Склад2";
         String sku = "12147";
@@ -230,7 +231,7 @@ class InMemoryWarehouseServiceTest {
     }
 
     @Test
-    void shouldSellGoodFromWarehouse() {
+    void shouldSellGoodFromWarehouse() throws IOException {
         String nameWarehouse = "Склад1";
         String nameWarehouse2 = "Склад2";
         String sku = "12147";
@@ -255,7 +256,7 @@ class InMemoryWarehouseServiceTest {
     }
 
     @Test
-    void shouldNotSellGoodFromWarehouse() {
+    void shouldNotSellGoodFromWarehouse() throws IOException {
         String nameWarehouse = "Склад1";
         String sku = "12147";
         String nameGood = "Вода";
@@ -274,7 +275,7 @@ class InMemoryWarehouseServiceTest {
     }
 
     @Test
-    void shouldGetGoodFromWarehouse() {
+    void shouldGetGoodFromWarehouse() throws IOException {
         String nameWarehouse = "Склад1";
         String sku = "12147";
         String sku2 = "12141";
