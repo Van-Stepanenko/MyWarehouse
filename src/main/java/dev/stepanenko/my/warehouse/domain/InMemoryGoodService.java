@@ -53,11 +53,12 @@ public class InMemoryGoodService implements GoodService {
 
     @Override
     public Good getGoods(String sku) {
-        Good good = goods.get(sku);
+
         if (sku == null) {
             throw new NotFoundException(404, "SKU can't be null");
         }
-        else if (good==null) {
+        Good good = goods.get(sku);
+         if (good==null) {
             throw new NotFoundException(404, "Good not found");
         }
         else {
@@ -84,7 +85,7 @@ public class InMemoryGoodService implements GoodService {
     @Override
     public void setLastBuyPrise(String sku, int lastBuyPrice) {
         if(lastBuyPrice<0){
-            throw new NullPointerException("last Buy Price can't be null.");
+            throw new NullPointerException("last Buy Price can't be less then zero.");
         }
         else {
             Good good = goods.get(sku);
@@ -96,7 +97,7 @@ public class InMemoryGoodService implements GoodService {
     @Override
     public void setLastSellPrice(String sku, int lastSellPrice) {
         if(lastSellPrice<0){
-            throw new NullPointerException("Last Sell Price can't be null.");
+            throw new NullPointerException("Last Sell Price can't be less then zero.");
         }
         else {
             Good good = goods.get(sku);
