@@ -5,12 +5,19 @@ import dev.stepanenko.my.warehouse.exception.BusinessException;
 import dev.stepanenko.my.warehouse.model.Good;
 import dev.stepanenko.my.warehouse.model.GoodAmount;
 import dev.stepanenko.my.warehouse.model.Warehouse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+@Service //магия, дает команду спрингу управлять этим классом
 public class InMemoryWarehouseService implements WarehouseService {
+    @Autowired // автозаполнение от спринга ( магия)
+    private IncomeAmountChanger incomeAmountChanger;
+    @Autowired
+
+    private OutcomeAmountChanger outcomeAmountChanger;
 
     private HashMap<String, Warehouse> warehouses = new HashMap<>();
 
@@ -44,7 +51,7 @@ public class InMemoryWarehouseService implements WarehouseService {
             throw new NotFoundException(404, "Warehouse name not  can be null");
         } else if (warehouses.containsKey(newNameWarehouse)) {
             throw new BusinessException.NameMatchException(505, "Warehouse name matches existing");
-        } else { // если все ок
+        } else {
 
             warehouse.setWarehouseName(newNameWarehouse);
             warehouses.put(newNameWarehouse, warehouse);
@@ -62,24 +69,28 @@ public class InMemoryWarehouseService implements WarehouseService {
 
     @Override
     public Warehouse getWarehouse(String nameWarehouse) {
-        if (warehouses.get(nameWarehouse) == null) {
+        Warehouse warehouse = warehouses.get(nameWarehouse);
+        if (warehouse == null) {
             throw new NotFoundException(404, "Warehouse not found");
         } else
-            return warehouses.get(nameWarehouse);
+            return warehouse;
 
 
     }
 
-    @Override
-    public void buyGoods(String nameWarehouse, String sku, String nameGood, int amountGood, int lastBuyPrice) {
+    public void incomeTransaction(String nameWarehouse, String sku, String nameGood, int amountGood, int lastBuyPrice) {
+        Warehouse warehouse = warehouses.get(nameWarehouse);
         if (amountGood<1){
             throw new NullPointerException("amount not  can be <1");
         }
         else if (lastBuyPrice<1){
             throw new NullPointerException("lastBuyPrice not  can be <1");
         }
+        else if(warehouse == null){
+            throw new NotFoundException(404, "Warehouse not found");
+
+        }
         else {
-            Warehouse warehouse = warehouses.get(nameWarehouse);
             GoodAmount goodAmount = new GoodAmount();
             goodAmount.setAmount(amountGood);
             Good good = new Good();
@@ -91,18 +102,18 @@ public class InMemoryWarehouseService implements WarehouseService {
 
             HashMap<String, GoodAmount> goodsHashMap = warehouse.getGoods();
 
-            if(!warehouse.getGoods().containsKey(sku)){
-
+            if(!warehouse.getGoods().containsKey(sku)){ // вернет true если ключ есть
+                System.out.println("key not found");
                 goodAmount.setAmount(amountGood);
                 goodsHashMap.put(sku, goodAmount);
-                warehouse.setGoods(goodsHashMap);
+                //warehouse.setGoods(goodsHashMap);
 
             }
             else {
                 GoodAmount goodAmountOld = goodsHashMap.get(sku);
                 goodAmount.setAmount(goodAmountOld.getAmount()+amountGood);
                 goodsHashMap.put(sku,goodAmount);
-                warehouse.setGoods(goodsHashMap);
+              //  warehouse.setGoods(goodsHashMap);
 
             }
 
@@ -110,15 +121,21 @@ public class InMemoryWarehouseService implements WarehouseService {
     }
 
     @Override
-    public void sellGoods(String nameWarehouse, String sku, String nameGood, int amountGood, int lastSellPrice) {
+    public void outcomeTransaction (String nameWarehouse, String sku, String nameGood, int amountGood, int lastSellPrice) {
+      //outcomeAmountChanger.change(nameWarehouse, sku , ....);
+
+
+        Warehouse warehouse = warehouses.get(nameWarehouse);
         if (amountGood<1){
             throw new NullPointerException("amount not  can be <1");
         }
         else if (lastSellPrice<1){
             throw new NullPointerException("lastBuyPrice not  can be <1");
+        } else if(warehouse == null){
+            throw new NotFoundException(404, "Warehouse not found");
         }
         else {
-            Warehouse warehouse = warehouses.get(nameWarehouse);
+
             GoodAmount goodAmount = new GoodAmount();
             goodAmount.setAmount(amountGood);
             Good good = new Good();
@@ -148,10 +165,17 @@ public class InMemoryWarehouseService implements WarehouseService {
         }
     }
 
+
+
     @Override
     public GoodAmount getGoodAmount(String nameWarehouse, String sku) {
         Warehouse warehouse = warehouses.get(nameWarehouse);
         return warehouse.getGoods().get(sku);
     }
 
+
+
+
 }
+
+

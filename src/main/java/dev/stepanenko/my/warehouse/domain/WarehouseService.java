@@ -9,8 +9,8 @@ public interface WarehouseService {
     void renameWarehouse (String warehouseName, String newNameWarehouse);
     void deleteWarehouse (String nameWarehouse);
     Warehouse getWarehouse (String nameWarehouse);
-    void buyGoods(String nameWarehouse, String sku, String nameGood, int amountGood, int lastBuyPrice);
-    void sellGoods(String nameWarehouse, String sku, String nameGood, int amountGood, int lastSellPrice);
+    void incomeTransaction(String nameWarehouse, String sku, String nameGood, int amountGood, int lastBuyPrice);
+    void outcomeTransaction(String nameWarehouse, String sku, String nameGood, int amountGood, int lastSellPrice);
     GoodAmount getGoodAmount(String nameWarehouse, String sku);
 }
 

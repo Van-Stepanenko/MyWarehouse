@@ -120,7 +120,7 @@ public class InMemoryGoodServiceTest {
     }
 
    /* @Test
-    public void changeAmount(){
+    public void change(){
         String sku = "Квас";
         String skuNotFound = "НЕКвас";
         InMemoryGoodService service = new InMemoryGoodService();
@@ -128,15 +128,15 @@ public class InMemoryGoodServiceTest {
         good.setName(sku);
         good.setSku(sku);
         service.saveGood(good);
-        service.changeAmount(sku,125);
+        service.change(sku,125);
         service.saveGood(good);
         int actualAmount = good.getAmount();
         assertEquals(125,actualAmount);
         assertThrows(NullPointerException.class, ()->{
-            service.changeAmount(sku,0);
+            service.change(sku,0);
         });
         assertThrows(NotFoundException.class, ()->{
-            service.changeAmount(skuNotFound,125);
+            service.change(skuNotFound,125);
         });
 
     }
@@ -164,7 +164,7 @@ public class InMemoryGoodServiceTest {
         newGood.setSku(sku);
         newGood.setWarehouse(warehouse);
         service.saveGood(newGood);
-        service.buyGoods(sku, 15,100,warehouse);
+        service.incomTransaction(sku, 15,100,warehouse);
 
 
         assertNotEquals(oldGood.getAmount(),newGood.getAmount());
@@ -179,7 +179,7 @@ public class InMemoryGoodServiceTest {
         InMemoryGoodService service = new InMemoryGoodService();
 
         assertThrows(NotFoundException.class, ()->{
-            service.buyGoods(sku, 15,100,warehouse);
+            service.incomTransaction(sku, 15,100,warehouse);
         });
     }
     @Test
@@ -204,7 +204,7 @@ public class InMemoryGoodServiceTest {
         newGood.setSku(sku);
         newGood.setWarehouse(warehouse);
         service.saveGood(newGood);
-        service.sellGoods(sku, 15,100,warehouse);
+        service.outcomeTransaction(sku, 15,100,warehouse);
         assert(oldGood.getAmount()>newGood.getAmount());
     }
     @Test
@@ -231,7 +231,7 @@ public class InMemoryGoodServiceTest {
         service.saveGood(newGood);
 
         assertThrows(NullPointerException.class, ()->{
-            service.sellGoods(sku, 15,100,warehouse);
+            service.outcomeTransaction(sku, 15,100,warehouse);
         });
     }*/
 

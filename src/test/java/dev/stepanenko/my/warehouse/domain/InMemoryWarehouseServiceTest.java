@@ -195,10 +195,10 @@ class InMemoryWarehouseServiceTest {
         InMemoryWarehouseService service = new InMemoryWarehouseService();
 
         service.createWarehouse(nameWarehouse);
-        service.buyGoods(nameWarehouse, sku, nameGood, amountGood, lastBuyPrice);
+        service.incomeTransaction(nameWarehouse, sku, nameGood, amountGood, lastBuyPrice);
 
         service.createWarehouse(nameWarehouse2);
-        service.buyGoods(nameWarehouse2, sku, nameGood, amountGood2, lastBuyPrice);
+        service.incomeTransaction(nameWarehouse2, sku, nameGood, amountGood2, lastBuyPrice);
 
         Warehouse warehouse1 = service.getWarehouse(nameWarehouse);
         Warehouse warehouse2 = service.getWarehouse(nameWarehouse2);
@@ -219,9 +219,9 @@ class InMemoryWarehouseServiceTest {
         InMemoryWarehouseService service = new InMemoryWarehouseService();
         service.createWarehouse(nameWarehouse);
         service.createWarehouse(nameWarehouse2);
-        service.buyGoods(nameWarehouse, sku, nameGood, amountGood, lastBuyPrice);
-        service.buyGoods(nameWarehouse, sku, nameGood, amountGood, lastBuyPrice2);
-        service.buyGoods(nameWarehouse2, sku, nameGood, amountGood2, lastBuyPrice2);
+        service.incomeTransaction(nameWarehouse, sku, nameGood, amountGood, lastBuyPrice);
+        service.incomeTransaction(nameWarehouse, sku, nameGood, amountGood, lastBuyPrice2);
+        service.incomeTransaction(nameWarehouse2, sku, nameGood, amountGood2, lastBuyPrice2);
 
         Warehouse warehouse1 = service.getWarehouse(nameWarehouse);
         Warehouse warehouse2 = service.getWarehouse(nameWarehouse2);
@@ -241,12 +241,12 @@ class InMemoryWarehouseServiceTest {
         InMemoryWarehouseService service = new InMemoryWarehouseService();
 
         service.createWarehouse(nameWarehouse);
-        service.buyGoods(nameWarehouse, sku, nameGood, amountGood, lastSellPrice);
-        service.sellGoods(nameWarehouse, sku, nameGood, amountGood2, lastSellPrice);
+        service.incomeTransaction(nameWarehouse, sku, nameGood, amountGood, lastSellPrice);
+        service.outcomeTransaction(nameWarehouse, sku, nameGood, amountGood2, lastSellPrice);
 
 
         service.createWarehouse(nameWarehouse2);
-        service.buyGoods(nameWarehouse2, sku, nameGood, amountGood2, lastSellPrice);
+        service.incomeTransaction(nameWarehouse2, sku, nameGood, amountGood2, lastSellPrice);
 
         Warehouse warehouse1 = service.getWarehouse(nameWarehouse);
         Warehouse warehouse2 = service.getWarehouse(nameWarehouse2);
@@ -265,10 +265,10 @@ class InMemoryWarehouseServiceTest {
         InMemoryWarehouseService service = new InMemoryWarehouseService();
 
         service.createWarehouse(nameWarehouse);
-        service.buyGoods(nameWarehouse, sku, nameGood, amountGood, lastSellPrice);
+        service.incomeTransaction(nameWarehouse, sku, nameGood, amountGood, lastSellPrice);
 
         assertThrows(NotFoundException.class, () -> {
-            service.sellGoods(nameWarehouse, sku, nameGood, amountGood2, lastSellPrice);
+            service.outcomeTransaction(nameWarehouse, sku, nameGood, amountGood2, lastSellPrice);
         });
 
     }
@@ -292,7 +292,7 @@ class InMemoryWarehouseServiceTest {
         goodAmount.setGood(good);
 
         service.createWarehouse(nameWarehouse);
-        service.buyGoods(nameWarehouse, sku, nameGood, amountGood, lastBuyPrice);
+        service.incomeTransaction(nameWarehouse, sku, nameGood, amountGood, lastBuyPrice);
 
 
         assertEquals(goodAmount, service.getGoodAmount(nameWarehouse, sku));
