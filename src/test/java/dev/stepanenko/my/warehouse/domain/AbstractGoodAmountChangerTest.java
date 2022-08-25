@@ -24,21 +24,44 @@ class AbstractGoodAmountChangerTest {
     //doIfNoGood прих - товара нет . создать новый товар в количестве changeAmount и сохранить
     //doIfNoGood расх - товара нет. бросить исключение
 
+    AbstractGoodAmountChanger changer;
+    InMemoryWarehouseService warehouseService;
+
+    String sku = "sku";
+    int amount = 5;
+    String nameWarehouse = "warehouse";
+    int lastByPrice = 12;
+    String nameGood = "fish";
 
     @BeforeEach
-    void setUp(){
-        AbstractGoodAmountChanger abstractGoodAmountChanger = new AbstractGoodAmountChanger() {
+    void setUp() {
 
+
+        Good good = new Good();
+        good.setName(nameGood);
+        good.setSku(sku);
+        good.setLastBuyPrice(lastByPrice);
+        GoodAmount goodAmount = new GoodAmount();
+        goodAmount.setAmount(amount);
+        goodAmount.setGood(good);
+        HashMap<String, GoodAmount> hashMapGoodAmount = new HashMap<>();
+        hashMapGoodAmount.put(sku, goodAmount);
+        warehouseService = new InMemoryWarehouseService();
+        warehouseService.createWarehouse(nameWarehouse);
+        warehouseService.getWarehouse(nameWarehouse).setGoods(hashMapGoodAmount);
+
+
+        changer = new AbstractGoodAmountChanger(warehouseService) {
             @Override
-            int doIfGoodPresent(int amountGood, int changeAmount) {
+            protected int doIfGoodPresent(int amountGood, int changeAmount) {
                 return 0;
             }
 
             @Override
-            Good doIfNoGood(String sku, String nameGood, int lastBuyPrice) {
+            protected Good doIfNoGood(String sku, String nameGood, int lastBuyPrice) {
                 return null;
             }
-        }
+        };
     }
 
 

@@ -284,8 +284,9 @@ definitions:
     properties:
       good:
         $ref: "#/definitions/Good"
-      amount:
-        $ref: "#/definitions/AmountWarehouse"
+      amounts:
+        items:
+          $ref: "#/definitions/AmountWarehouse"
 
 
   Invoice:

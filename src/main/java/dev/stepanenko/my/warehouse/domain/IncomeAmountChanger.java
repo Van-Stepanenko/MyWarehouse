@@ -7,6 +7,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class IncomeAmountChanger extends AbstractGoodAmountChanger{
+
+    public IncomeAmountChanger(WarehouseService warehouseService) {
+        super(warehouseService);
+    }
+
     @Override
     int doIfGoodPresent(int amountGood, int changeAmount) {
         return amountGood+changeAmount;

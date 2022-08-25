@@ -33,5 +33,4 @@ public abstract class AbstractGoodAmountChanger implements GoodAmountChanger{
     abstract int doIfGoodPresent(int amountGood, int changeAmount);
     abstract Good doIfNoGood(String sku, String nameGood, int lastBuyPrice);
 
-
 }

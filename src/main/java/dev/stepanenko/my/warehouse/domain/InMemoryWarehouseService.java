@@ -16,7 +16,6 @@ public class InMemoryWarehouseService implements WarehouseService {
     @Autowired // автозаполнение от спринга ( магия)
     private IncomeAmountChanger incomeAmountChanger;
     @Autowired
-
     private OutcomeAmountChanger outcomeAmountChanger;
 
     private HashMap<String, Warehouse> warehouses = new HashMap<>();

@@ -44,7 +44,7 @@ public class GoodsApiController implements GoodsApi {
  //           try {
    //     log.info("name = {}, pageNumber = {}, pageSize = {}", name, pageNumber,pageSize);
 
-                return ResponseEntity.ok(List.of(new GoodWarehouses(new Good(), new AmountWarehouse(name, pageNumber))));
+                return ResponseEntity.ok(List.of(new GoodWarehouses(new Good(), List.of(new AmountWarehouse(name, pageNumber)))));
                // return new ResponseEntity<List<GoodWarehouses>>(objectMapper.readValue("{}", List.class), HttpStatus.NOT_IMPLEMENTED);
 //            } catch (IOException e) {
 //                log.error("Couldn't serialize response for content type application/json", e);
