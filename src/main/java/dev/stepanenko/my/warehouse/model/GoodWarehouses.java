@@ -52,7 +52,7 @@ public class GoodWarehouses   {
     this.good = good;
   }
 
-  public GoodWarehouses amount(AmountWarehouse amount) {
+  public GoodWarehouses amount(List<AmountWarehouse> amount) {
     this.amount = amount;
     return this;
   }
@@ -65,11 +65,11 @@ public class GoodWarehouses   {
 
   @Valid
 
-  public AmountWarehouse getAmount() {
+  public List<AmountWarehouse> getAmount() {
     return amount;
   }
 
-  public void setAmount(AmountWarehouse amount) {
+  public void setAmount(List<AmountWarehouse> amount) {
     this.amount = amount;
   }
 

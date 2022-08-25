@@ -1,8 +1,13 @@
 package dev.stepanenko.my.warehouse.domain;
 
+import dev.stepanenko.my.warehouse.exception.ChangerException;
 import dev.stepanenko.my.warehouse.model.Good;
+import dev.stepanenko.my.warehouse.model.GoodAmount;
+import dev.stepanenko.my.warehouse.model.Warehouse;
 import org.junit.jupiter.api.BeforeEach;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -64,6 +69,70 @@ class AbstractGoodAmountChangerTest {
         };
     }
 
+    @Test
+    void shouldChangeGoodAmount() {
 
+        String sku = "sku";
+        int changeAmount = 5;
+        String nameWarehouse = "warehouse";
+        int lastByPrice = 12;
+        String nameGood = "fish";
+        int actualGoodAmount = 0;
+
+        changer.change(sku, changeAmount, nameWarehouse, lastByPrice, nameGood);
+        actualGoodAmount = getGoodAmount(nameWarehouse, sku);
+        assertEquals(10, actualGoodAmount);
+    }
+
+    int getGoodAmount(String warehouseName, String sku) {
+
+        //вызвать метод у  верхаус дай гуд амоун по конкретному неймверхаус
+        Warehouse warehouse = warehouseService.getWarehouse(warehouseName);//у экземпляра какого класса мы будем требовать дать нам верхаус по имени верхауснейм
+        return warehouse.getGoods().get(sku).getAmount();
+
+    }
+    @Test
+    void shouldGetExceptionIfSKUInvalid(){
+
+        assertThrows(ChangerException.class, ()->{
+            changer.change(null, 12, nameWarehouse, lastByPrice, nameGood);
+        });
+
+    }
+
+    @Test
+    void shouldGetExceptionIfChangeAmountInvalid(){
+        assertThrows(ChangerException.class, ()->{
+            changer.change(sku, -12, nameWarehouse, lastByPrice, nameGood);
+        });
+    }
+
+    @Test
+    void shouldGetExceptionIfNameWarehouseInvalid(){
+        assertThrows(ChangerException.class, ()->{
+            changer.change(sku, 12, null, lastByPrice, nameGood);
+        });
+    }
+
+    @Test
+    void shouldGetExceptionIfLastByPriceInvalid(){
+        assertThrows(ChangerException.class, ()->{
+            changer.change(sku, 12, nameWarehouse, -12, nameGood);
+        });
+    }
+
+    @Test
+    void shouldGetExceptionIfNameGoodInvalid(){
+        assertThrows(ChangerException.class, ()->{
+            changer.change(sku, 12, nameWarehouse, lastByPrice, null);
+        });
+    }
+
+    @Test
+    void shouldGetExceptionIfGoodNotFound(){
+        assertThrows(ChangerException.class, ()->{
+            changer.change("ssds", 12, nameWarehouse, lastByPrice, "Какое то имя");
+        });
+    }
 
 }

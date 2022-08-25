@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
 
 /**
  * AmountWarehouse
+ *
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-07-29T09:17:33.220Z")

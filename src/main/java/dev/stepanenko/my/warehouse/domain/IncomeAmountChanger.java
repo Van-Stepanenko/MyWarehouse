@@ -13,12 +13,12 @@ public class IncomeAmountChanger extends AbstractGoodAmountChanger{
     }
 
     @Override
-    int doIfGoodPresent(int amountGood, int changeAmount) {
+   protected int doIfGoodPresent(int amountGood, int changeAmount) {
         return amountGood+changeAmount;
     }
 
     @Override
-    Good doIfNoGood(String sku, String nameGood, int lastBuyPrice) {
+    protected Good doIfNoGood(String sku, String nameGood, int lastBuyPrice) {
        Good good = new Good();
        good.setName(nameGood);
        good.setSku(sku);
