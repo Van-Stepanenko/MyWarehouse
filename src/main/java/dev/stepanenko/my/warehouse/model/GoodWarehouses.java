@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -20,9 +21,9 @@ public class GoodWarehouses   {
   private Good good = null;
 
   @JsonProperty("amount")
-  private AmountWarehouse amount = null;
+  private List<AmountWarehouse> amount = null;
 
-  public GoodWarehouses(Good good, AmountWarehouse amount) {
+  public GoodWarehouses(Good good, List<AmountWarehouse> amounts) {
     this.good = good;
     this.amount = amount;
   }
@@ -51,7 +52,7 @@ public class GoodWarehouses   {
     this.good = good;
   }
 
-  public GoodWarehouses amount(AmountWarehouse amount) {
+  public GoodWarehouses amount(List<AmountWarehouse> amount) {
     this.amount = amount;
     return this;
   }
@@ -64,11 +65,11 @@ public class GoodWarehouses   {
 
   @Valid
 
-  public AmountWarehouse getAmount() {
+  public List<AmountWarehouse> getAmount() {
     return amount;
   }
 
-  public void setAmount(AmountWarehouse amount) {
+  public void setAmount(List<AmountWarehouse> amount) {
     this.amount = amount;
   }
 

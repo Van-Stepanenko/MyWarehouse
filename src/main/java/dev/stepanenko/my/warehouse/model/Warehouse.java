@@ -1,5 +1,6 @@
 package dev.stepanenko.my.warehouse.model;
 
+import java.util.HashMap;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -17,14 +18,17 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2022-07-29T09:17:33.220Z")
 
-
-public class Warehouse   {
+/**
+ * Класс хранит имя конкретного склада и его товары с их количеством.
+ * хранит = можно записать и прочитать т.е. setX() + getX()
+ * */
+public class Warehouse  {
   @JsonProperty("warehouseName")
   private String warehouseName = null;
 
   @JsonProperty("goods")
   @Valid
-  private List<GoodAmount> goods = null;
+  private HashMap<String, GoodAmount> goods = null;
 
 
   public Warehouse warehouseName(String warehouseName) {
@@ -48,18 +52,18 @@ public class Warehouse   {
     this.warehouseName = warehouseName;
   }
 
-  public Warehouse goods(List<GoodAmount> goods) {
+  public Warehouse goods(HashMap<String, GoodAmount> goods) {
     this.goods = goods;
     return this;
   }
 
-  public Warehouse addGoodsItem(GoodAmount goodsItem) {
+  /*public Warehouse addGoodsItem(GoodAmount goodsItem) {
     if (this.goods == null) {
-      this.goods = new ArrayList<GoodAmount>();
+      this.goods = new HashMap<String, GoodAmount>();
     }
     this.goods.add(goodsItem);
     return this;
-  }
+  }*/
 
   /**
    * Get goods
@@ -68,12 +72,11 @@ public class Warehouse   {
   @ApiModelProperty(value = "")
 
   @Valid
-
-  public List<GoodAmount> getGoods() {
+  public HashMap<String, GoodAmount> getGoods() {
     return goods;
   }
 
-  public void setGoods(List<GoodAmount> goods) {
+  public void setGoods(HashMap<String, GoodAmount> goods) {
     this.goods = goods;
   }
 
